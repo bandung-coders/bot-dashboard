@@ -6,10 +6,7 @@ const MainBody = (props) => {
       <div className="main-navbar">
         <h1>RESTU DWI CAHYO GANTENG</h1>
       </div>
-      <div className="main-sidebar"></div>
-      <div className="main-body">
-        {props.children}
-      </div>
+      {props.children}
     </div>
   );
 };

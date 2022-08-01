@@ -1,0 +1,92 @@
+[class*=" col-"],
+[class^="col-"] {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+  @extend .row-np;
+  &-np {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  &#{&}-x {
+    &-left {
+      justify-content: flex-start;
+    }
+    &-right {
+      justify-content: flex-end;
+    }
+    &-center {
+      justify-content: center;
+    }
+    &-space-between {
+      justify-content: space-between;
+    }
+  }
+  &#{&}-y {
+    &-top {
+      align-items: flex-start;
+    }
+    &-bottom {
+      align-items: flex-end;
+    }
+    &-center {
+      align-items: center;
+    }
+    &-full {
+      align-items: stretch;
+    }
+  }
+}
+
+.col {
+  $end-width: 100%;
+  $end-col: 12;
+  &-auto {
+    width: auto;
+  }
+  @for $i from 1 through $end-col {
+    &-#{$i} {
+      $width: 100% / ($end-col / $i);
+      -ms-flex: 0 0 $width;
+      flex: 0 0 $width;
+      max-width: $width;
+    }
+  }
+  &-y {
+    &-top {
+      align-items: flex-start;
+    }
+    &-bottom {
+      align-items: flex-end;
+    }
+    &-center {
+      align-items: center;
+    }
+    &-full {
+      align-items: stretch;
+    }
+  }
+  &-x {
+    &-left {
+      justify-content: flex-start;
+    }
+    &-right {
+      justify-content: flex-end;
+    }
+    &-center {
+      justify-content: center;
+    }
+  }
+}
