@@ -1,0 +1,195 @@
+$highest-index: 2000;
+$navbar-height: 60px;
+$sidebar-width: 250px;
+
+* {
+  box-sizing: border-box;
+  &::before,
+  &::after {
+    @extend *;
+  }
+}
+
+@font-face {
+  font-family: "Red Hat Display";
+  src: url("../fonts/RedHatDisplay-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Red Hat Display";
+  src: url("../fonts/RedHatDisplay-Black.ttf");
+  font-weight: bold;
+}
+
+
+:root {
+  $primary-color: #19F8FF;
+
+  --color-primary: #{$primary-color};
+  --color-red-1: #e22126;
+  --color-black-1: #222;
+  --color-black-2: #737373;
+  --color-black-3: #333;
+  --color-black-4: #444;
+  --color-black-5: #555;
+  --color-black-6: #666;
+  --color-black-7: #777;
+  --color-black-8: #888;
+  --color-black-9: #999;
+  --color-gray-1: #978c94;
+  --color-gray-2: #B0A6B5;
+  --color-gray-3: #CCB9EA33;
+  --color-gray-4: #dadada;
+  --color-white: #fff;
+  --color-background: #f9f9f9;
+  --color-whatsapp: #25d366;
+}
+
+::-moz-selection {
+  color: var(--color-black-1);
+  background: var(--color-primary);
+}
+
+::selection {
+  color: var(--color-black-1);
+  background: var(--color-primary);
+}
+
+.noselect {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html,
+body {
+  font-family: "Red Hat Display";
+  background-color: #eeeeee;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-black-1);
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+#bacod-framework {
+  position: relative;
+  overflow-x: hidden;
+  height: 100%;
+  background: #eeeeee;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c-primary {
+  color: var(--color-primary);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.main {
+  & &-navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: $navbar-height;
+    background-color: var(--color-black-1);
+    z-index: ($highest-index - 100);
+  }
+  & &-sidebar {
+    width: $sidebar-width;
+    background-color: var(--color-black-1);
+    z-index: ($highest-index - 99);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-right: 1px solid var(--color-black-2);
+  }
+}
+
+.sidebar {
+  &-header {
+    width: 100%;
+    height: $navbar-height;
+    border-bottom: 1px solid var(--color-black-2);
+    position: relative;
+  }
+  &-logo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    & &-title {
+      color: var(--color-white);
+      font-size: 1.6rem;
+      padding-left: 12px;
+    }
+  }
+  &-body {
+    width: 100%;
+    position: relative;
+    & .sidebar {
+      &-wrapper {
+        padding: 20px 15px;
+      }
+      &-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      &-item {
+        width: 100%;
+        & a {
+          display: inline-block;
+          outline: none;
+          border: none;
+          text-decoration: none;
+          background: var(--color-white);
+          width: 100%;
+          font-size: 1.1rem;
+          padding: 8px 15px;
+          border-radius: 50px;
+          color: var(--color-black-1);
+          &:hover {
+            background: var(--color-primary);
+          }
+        }
+        &:not(:last-child) {
+          margin-bottom: 16px;
+        }
+        &.active {
+          & a {
+            background: var(--color-primary);
+          }
+        }
+      }
+    }
+  }
+}
