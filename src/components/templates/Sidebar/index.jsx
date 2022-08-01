@@ -1,7 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+const sidebarMenu = [
+  {
+    link: "/",
+    title: "Home",
+  },
+  {
+    link: "/masters",
+    title: "Master Data",
+  },
+  {
+    link: "/scheduler",
+    title: "Scheduler",
+  },
+  {
+    link: "/bulk",
+    title: "Bulk Message",
+  },
+  {
+    link: "/whatsapp",
+    title: "Whatsapp",
+  },
+  {
+    link: "/history",
+    title: "History",
+  },
+];
 
 const Sidebar = (props) => {
+  const location = useLocation();
+
   return (
     <div className="main-sidebar">
       <div className="sidebar-header">
@@ -16,24 +45,18 @@ const Sidebar = (props) => {
       <div className="sidebar-body">
         <div className="sidebar-wrapper">
           <ul className="sidebar-menu">
-            <li className="sidebar-item">
-              <Link to="/home">Home</Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/masters">Master Data</Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/scheduler">Scheduler</Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/bulk">Bulk Message</Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/whatsapp">Whatsapp</Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/history">History</Link>
-            </li>
+            {
+              sidebarMenu.map((item, index) => {
+                const className = ["sidebar-item"];
+                if (location.pathname === item.link) className.push("active");
+
+                return (
+                  <li className={className.join(" ")} key={index}>
+                    <Link to={item.link}>{item.title}</Link>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
       </div>

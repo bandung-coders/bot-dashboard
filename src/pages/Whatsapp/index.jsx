@@ -1,9 +1,12 @@
 import React from "react";
+import { MainBody } from "components/templates";
 
-const Home = () => {
+const Whatsapp = () => {
   return (
-    <h1>SAMPLE PAGE</h1>
+    <MainBody>
+      <h1>Whatsapp PAGE</h1>
+    </MainBody>
   );
 };
 
-export default Home;
+export default Whatsapp;

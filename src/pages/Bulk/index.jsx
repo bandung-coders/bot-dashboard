@@ -1,8 +1,11 @@
 import React from "react";
+import { MainBody } from "components/templates";
 
 const Bulk = () => {
   return (
-    <h1>BULK MESSAGE</h1>
+    <MainBody>
+      <h1>BULK PAGE</h1>
+    </MainBody>
   );
 };
 
