@@ -68,4 +68,11 @@
       }
     }
   }
+  &-checkin {
+    width: 400px;
+    min-height: 50px;
+    padding: 30px 30px;
+    border-radius: 15px;
+    background: var(--color-black-1);
+  }
 }
