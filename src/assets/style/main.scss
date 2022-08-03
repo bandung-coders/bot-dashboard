@@ -55,6 +55,8 @@ $sidebar-width: 250px;
   background: var(--color-primary);
 }
 
+@import "icon";
+
 .noselect {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;

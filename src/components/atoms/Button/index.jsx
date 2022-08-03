@@ -3,7 +3,22 @@ import { useNavigate } from "react-router-dom";
 
 const Button = (props) => {
   const navigate = useNavigate();
-  const { type, disabled, color, radius, loading, xs, sm, md, lg, xl, full, href } = props;
+  const {
+    type,
+    disabled,
+    color,
+    radius,
+    loading,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    full,
+    href,
+    title,
+    tooltipMessage,
+  } = props;
   const className = ["btn"];
 
   // #region - BUTTON COLOR
@@ -22,6 +37,9 @@ const Button = (props) => {
     break;
   case "green":
     className.push("btn-green");
+    break;
+  case "blue":
+    className.push("btn-blue");
     break;
   }
   // #endregion - BUTTON COLOR
@@ -61,6 +79,7 @@ const Button = (props) => {
   // #endregion - BUTTON SIZE
 
   if (full) className.push("width-full");
+  if (tooltipMessage) className.push("btn-tooltip");
   if (props.className) className.push(props.className);
   if (loading) className.push("btn-loading");
 
@@ -78,6 +97,8 @@ const Button = (props) => {
       className={className.join(" ")}
       onClick={onClickHandler}
       disabled={disabled || loading}
+      tooltip-message={tooltipMessage}
+      title={title}
     >
       { !loading && props.children}
     </button>
