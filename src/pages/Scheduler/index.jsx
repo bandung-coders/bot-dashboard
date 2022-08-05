@@ -1,28 +1,84 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MainBody } from "components/templates";
-import { BoxInfo } from "components/molecules";
 import { Button } from "components/atoms";
+import { ModalDelete } from "components/organisms";
 import Row from "./Row";
-
-const data = [
-  {
-    message: "TESTING 123",
-    schedule: "12 April 2023",
-  },
-  {
-    message: "TESTING 1",
-    schedule: "13 April 2023",
-  },
-  {
-    message: "TESTING 9999",
-    schedule: "14 April 2023",
-  },
-];
+import axios from "services/axios";
 
 const Scheduler = () => {
+  const [listData, setListData] = useState([]);
+  const [totalData, setTotalData] = useState(0);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(15);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [selectedData, setSelectedData] = useState({});
+
+  useEffect(() => {
+    loadFirst();
+  }, []);
+
+  const fetchApi = () => {
+    return axios.get("cronjob", {
+      params: {
+        limit,
+        page,
+      },
+    });
+  };
+
+  const loadFirst = async () => {
+    setPage(1);
+    try {
+      const response = await fetchApi();
+      if (response.data.success) {
+        setPage(2);
+        setTotalData(response.data.results.pagination.totalData);
+        setListData(response.data.results.data);
+      }
+    } catch (error) {
+      alert("ERROR GET DATA");
+    }
+  };
+
+  const loadMore = async () => {
+    setIsLoadingMore(true);
+    try {
+      const response = await fetchApi();
+      if (response.data.success) {
+        setPage(page + 1);
+        setTotalData(response.data.results.pagination.totalData);
+        setListData([...listData, ...response.data.results.data]);
+      }
+    } catch (error) {
+      alert("ERROR GET MORE DATA");
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  const closeModal = () => {
+    setIsShowModalDelete(false);
+  };
+
+  const onDelete = (data) => {
+    setSelectedData(data);
+    setIsShowModalDelete(true);
+  };
+
   return (
     <MainBody>
-      <h1>Scheduler PAGE</h1>
+      <h1>Scheduler</h1>
+      <ModalDelete
+        show={isShowModalDelete}
+        onClose={closeModal}
+        api={`cronjob/${selectedData.id}`}
+        id={selectedData.id}
+        onDeleted={() => {
+          closeModal();
+          loadFirst();
+        }}
+      />
       <div className="mt-10">
         <div className="row">
           <div className="col-6">
@@ -45,19 +101,35 @@ const Scheduler = () => {
           </thead>
           <tbody>
             {
-              data.map((item, index) => {
+              listData.map((item, index) => {
                 return (
                   <Row
                     key={index}
                     order={index + 1}
-                    message={item.message}
-                    schedule={item.schedule}
+                    data={item}
+                    onDelete={(e) => { onDelete(e); }}
                   />
                 );
               })
             }
           </tbody>
         </table>
+        {
+          totalData > listData.length &&
+          <div className="text-center">
+            <Button
+              className="px-6"
+              color="black"
+              onClick={() => {
+                loadMore();
+              }}
+              loading={isLoadingMore}
+              sm
+            >
+                LOAD MORE
+            </Button>
+          </div>
+        }
       </div>
     </MainBody>
   );

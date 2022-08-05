@@ -21,27 +21,8 @@ const Row = (props) => {
   return (
     <tr>
       <td>{props.order}</td>
-      <td>
-        {
-          data.destination &&
-          data.destination.length > 0 &&
-          <ol className="normal">
-            {
-              data.destination.map((item, index) => {
-                return (
-                  <li key={index}>{item.no} - <b>{item.name}</b></li>
-                );
-              })
-            }
-          </ol>
-        }
-      </td>
-      <td>
-        {
-          data.schedule &&
-          dayjs(data.schedule).format("dddd, DD MMM YYYY - HH:mm:ss")
-        }
-      </td>
+      <td>{data.name}</td>
+      <td>{data.whatsapp}</td>
       <td>
         <Button
           type="button"
@@ -54,7 +35,7 @@ const Row = (props) => {
         >
           <i className="resitdc icon-trash-2"></i>
         </Button>
-        {/* <Button
+        <Button
           type="button"
           className="mr-3"
           color="green"
@@ -64,7 +45,7 @@ const Row = (props) => {
           sm
         >
           <i className="resitdc icon-edit"></i>
-        </Button> */}
+        </Button>
         <Button
           type="button"
           color="blue"

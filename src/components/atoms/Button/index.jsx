@@ -41,6 +41,9 @@ const Button = (props) => {
   case "blue":
     className.push("btn-blue");
     break;
+  case "gray":
+    className.push("btn-gray");
+    break;
   }
   // #endregion - BUTTON COLOR
 

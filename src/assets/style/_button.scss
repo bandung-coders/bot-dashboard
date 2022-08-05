@@ -56,6 +56,10 @@
     background-color: rgb(25, 178, 255);
     color: var(--color-white);
   }
+  &#{&}-gray {
+    background-color: rgb(203, 203, 203);
+    color: var(--color-black-1);
+  }
   &#{&}-size {
     &-xs {
       font-size: 10px;

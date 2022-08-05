@@ -75,4 +75,58 @@
     border-radius: 15px;
     background: var(--color-black-1);
   }
+  &-contact {
+    width: 100%;
+    & &-header {
+      width: 100%;
+      position: relative;
+      background-color: var(--color-black-1);
+      padding: 8px 15px;
+    }
+    & &-body {
+      width: 100%;
+      position: relative;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-black-1);
+      padding: 10px 15px;
+      max-height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      & .contact-info {
+        margin-bottom: 15px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        &-no {
+          font-weight: bold;
+          margin-right: 10px;
+          &::before {
+            content: attr(order) ". ";
+            margin-right: 10px;
+            color: var(--color-red-1);
+          }
+        }
+        &-name {
+          margin-right: 10px;
+        }
+        &-status {
+          outline: none;
+          border: none;
+          padding: 3px 8px;
+          font-size: 1rem;
+          line-height: 1rem;
+          color: var(--color-white);
+          &.success {
+            background:rgb(72, 165, 0);
+          }
+          &.failed {
+            background:var(--color-red-1);
+          }
+          &.progress {
+            background:var(--color-black-1);
+          }
+        }
+      }
+    }
+  }
 }

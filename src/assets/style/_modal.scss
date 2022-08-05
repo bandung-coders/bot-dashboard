@@ -1,0 +1,105 @@
+@keyframes zoomInModal {
+  0% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  85% {
+    transform: scale(1.1);
+  }
+  90% {
+    transform: scale(1.15);
+  }
+  95% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $highest-index + 10;
+  &#{&}-hidden {
+    display: none;
+  }
+  & &-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  & &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
+  & &-box {
+    position: relative;
+    min-width: 10px;
+    min-height: 5px;
+    padding: 5px 10px;
+    background-color: var(--color-white);
+    z-index: 5;
+    transition: ease-in-out;
+    animation: zoomInModal 0.3s;
+    &-xs {
+      width: 100px;
+    }
+    &-sm {
+      width: 230px;
+    }
+    &-md {
+      width: 360px;
+    }
+    &-lg {
+      width: 490px;
+    }
+    &-xl {
+      width: 650px;
+    }
+    &-radius {
+      &-xs {
+        border-radius: 5px;
+      }
+      &-sm {
+        border-radius: 10px;
+      }
+      &-md {
+        border-radius: 15px;
+      }
+      &-lg {
+        border-radius: 20px;
+      }
+      &-xl {
+        border-radius: 25px;
+      }
+    }
+  }
+  & &-btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+    background: none;
+    border: none;
+    outline: none;
+    color: #FFF;
+    cursor: pointer;
+    & svg {
+      color: #FFF;
+    }
+  }
+}
