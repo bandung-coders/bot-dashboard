@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MainBody } from "components/templates";
 import axios from "services/axios";
+const backendHost = process.env.REACT_APP_API;
 
 const Home = () => {
   const [features, setFeatures] = useState([]);
@@ -36,7 +37,7 @@ const Home = () => {
               <li>Jika sudah terhubung image akan berubah menjadi CONNECTED</li>
             </ol>
             <h2 className="mt-15 mb-5">SCAN THIS BARCODE WITH YOUR WHATSAPP</h2>
-            <img src="http://localhost:8080/wa/barcode" width="400px" alt="" />
+            <img src={backendHost + "/wa/barcode"} width="400px" alt="" />
           </div>
           <div className="col-6">
             <h2>Fitur yang akan datang :</h2>
