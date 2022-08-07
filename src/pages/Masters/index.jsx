@@ -82,8 +82,11 @@ const MasterData = () => {
       <div className="mt-10">
         <div className="row">
           <div className="col-6">
-            <Button type="button" color="black" radius="xs" href="/scheduler/add" md>
+            <Button type="button" color="black" radius="xs" href="/scheduler/add" md className="mr-4">
               TAMBAH DATA
+            </Button>
+            <Button type="button" color="primary" radius="xs" href="/scheduler/add" md>
+              IMPORT DATA
             </Button>
           </div>
           <div className="col-6">
