@@ -261,3 +261,12 @@ export const secondsToHms = (d) => {
   const sDisplay = s > 0 ? s + (s === 1 ? " detik" : " detik") : "";
   return hDisplay + mDisplay + sDisplay;
 };
+
+export const getBotLocalData = () => {
+  let results = "bot-1";
+  const localBot = localStorage.getItem("bot");
+  if (localBot) {
+    results = localBot;
+  }
+  return results;
+};

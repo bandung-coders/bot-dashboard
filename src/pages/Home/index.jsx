@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import { MainBody } from "components/templates";
 import axios from "services/axios";
 import { BoxInfo } from "components/molecules";
+import { getBotLocalData } from "utils/helpers";
 const backendHost = process.env.REACT_APP_API;
 
 const Home = () => {
   const [features, setFeatures] = useState([]);
+  const [botId, setBotId] = useState("");
 
   useEffect(() => {
     getUpcomingFeatures();
+    setBotId(getBotLocalData());
   }, []);
 
   const getUpcomingFeatures = async () => {
@@ -30,9 +33,9 @@ const Home = () => {
           <div className="col-6">
             <div className="">
               <BoxInfo title="PERINGATAN PENTING" color="red">
-                <h2>System ini tidak didesain untuk multiple whatsapp session, jika menggunakan system ini lebih dari 1 whatsapp perlu disconnect terlebih dulu</h2>
+                <h2>System ini hanya didesain untuk 4 whatsapp session</h2>
                 <hr />
-                <p>System ini masih belum diuji sepenuhnya secara Alpha, perlu pengujian tingkat Beta dan Production</p>
+                <p>System ini masih belum diuji sepenuhnya secara Alpha, perlu pengujian tingkat Beta lalu Production</p>
               </BoxInfo>
             </div>
             <div className="mt-5">
@@ -46,7 +49,7 @@ const Home = () => {
                 <li>Jika sudah terhubung image akan berubah menjadi CONNECTED</li>
               </ol>
               <h2 className="mt-15 mb-5">SCAN THIS BARCODE WITH YOUR WHATSAPP</h2>
-              <img src={backendHost + "/wa/barcode"} width="400px" alt="" />
+              <img src={backendHost + "/wa/barcode/" + botId} width="400px" alt="" />
             </div>
           </div>
           <div className="col-6">

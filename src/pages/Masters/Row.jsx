@@ -46,16 +46,6 @@ const Row = (props) => {
         >
           <i className="resitdc icon-edit"></i>
         </Button>
-        <Button
-          type="button"
-          color="blue"
-          radius="xs"
-          tooltipMessage="DETAIL"
-          onClick={() => { onView(data); }}
-          sm
-        >
-          <i className="resitdc icon-eye"></i>
-        </Button>
       </td>
     </tr>
   );

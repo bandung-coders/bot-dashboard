@@ -18,6 +18,7 @@ const Button = (props) => {
     href,
     title,
     tooltipMessage,
+    heightFull,
   } = props;
   const className = ["btn"];
 
@@ -82,6 +83,7 @@ const Button = (props) => {
   // #endregion - BUTTON SIZE
 
   if (full) className.push("width-full");
+  if (heightFull) className.push("height-full");
   if (tooltipMessage) className.push("btn-tooltip");
   if (props.className) className.push(props.className);
   if (loading) className.push("btn-loading");

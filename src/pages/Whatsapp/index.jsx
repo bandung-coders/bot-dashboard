@@ -4,7 +4,10 @@ import { MainBody } from "components/templates";
 const Whatsapp = () => {
   return (
     <MainBody>
-      <h1>Whatsapp PAGE</h1>
+      <h1>Whatsapp</h1>
+      <div className="mt-10">
+        <h1 className="text-center">COMING SOON FEATURES</h1>
+      </div>
     </MainBody>
   );
 };

@@ -3,7 +3,7 @@ import { MainBody } from "components/templates";
 import { Button } from "components/atoms";
 import { BoxInfo } from "components/molecules";
 import axios from "services/axios";
-import { secondsToHms } from "utils/helpers";
+import { secondsToHms, getBotLocalData } from "utils/helpers";
 
 const Bulk = () => {
   const [limit, setLimit] = useState(20);
@@ -16,7 +16,10 @@ const Bulk = () => {
   const [message2, setMessage2] = useState("");
   const [messageImage2, setMessageImage2] = useState("");
   const [informasi, setInformasi] = useState("");
+  const [searchContact, setSearchContact] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
   const dataResults = useRef(null);
+  const botId = getBotLocalData();
 
   useEffect(() => {
     loadFirst(limit);
@@ -25,7 +28,7 @@ const Bulk = () => {
   const onChangeContact = (e) => {
     const limitValue = e.target.value;
     if (limitValue >= 1) {
-      generateInformasi(limitValue, messageInterval);
+      // generateInformasi(limitValue, messageInterval);
       setLimit(limitValue);
       loadFirst(limitValue);
     } else {
@@ -33,21 +36,24 @@ const Bulk = () => {
     }
   };
 
-  const fetchApi = (myLimit) => {
-    return axios.get("master", {
+  const fetchApi = (myLimit, currentSearch) => {
+    return axios.get("master/contacts", {
       params: {
         limit: myLimit,
         page: 1,
+        search: currentSearch,
       },
     });
   };
 
-  const loadFirst = async (myLimit) => {
+  const loadFirst = async (myLimit, currentSearch) => {
     setIsFetching(true);
     try {
-      const response = await fetchApi(myLimit);
+      const response = await fetchApi(myLimit, currentSearch);
       if (response.data.success) {
-        setListData(response.data.results.data);
+        const responseData = response.data.results.data;
+        setListData(responseData);
+        generateInformasi(responseData.length, messageInterval);
       }
     } catch (error) {
       alert("ERROR GET DATA");
@@ -58,7 +64,7 @@ const Bulk = () => {
 
   const onChangeInterval = (e) => {
     const intervalValue = e.target.value;
-    generateInformasi(limit, intervalValue);
+    generateInformasi(listData.length, intervalValue);
     if (intervalValue < 5) {
       setMessageInterval(5);
     } else {
@@ -121,6 +127,7 @@ const Bulk = () => {
       name: name,
       message: message,
       image: imageBase64,
+      botId: botId,
     };
     try {
       const response = await axios.post("wa/send/image", formData);
@@ -169,12 +176,46 @@ const Bulk = () => {
     setMessageImage2(base64Convert);
   };
 
+  const onSearchContact = (e) => {
+    loadFirst(limit, e.target.value ? e.target.value : "");
+    setSearchContact(e.target.value);
+  };
+
+  const openFilter = () => {
+    setIsFilter(true);
+  };
+
+  const closeFilter = () => {
+    setIsFilter(false);
+  };
+
   return (
     <MainBody>
       <h1>BULK PAGE</h1>
       <div className="mt-10 mb-15">
-        <div className="row mb-10">
-          <div className="col-3">
+        <div className="mb-10">
+          <div className="box-variasi">
+            <div className="box-variasi-header">
+              Pesan Variasi 1
+            </div>
+            <div className="box-variasi-body">
+              <textarea
+                rows="7"
+                className="form-input"
+                value={message1}
+                onChange={(e) => { setMessage1(e.target.value); }}
+                placeholder="Tulis pesan disini"
+              ></textarea>
+              <input
+                type="file"
+                onChange={(e) => {
+                  changeImage1(e);
+                }}
+                accept="image/jpg, image/jpeg, image/png"
+              />
+            </div>
+          </div>
+          {/* <div className="col-3">
             <div className="mb-2 fs-md">Pesan Variasi 1</div>
             <textarea rows="7" className="form-input" value={message1} onChange={(e) => { setMessage1(e.target.value); }}></textarea>
             <input
@@ -195,22 +236,87 @@ const Bulk = () => {
               }}
               accept="image/jpg, image/jpeg, image/png"
             />
-          </div>
+          </div> */}
         </div>
-        <div className="row">
-          <div className="col-3">
-            <div className="mb-10">
-              <div className="mb-2 fs-md">Message Interval</div>
-              <input
-                type="number"
-                className="form-input"
-                onChange={onChangeInterval}
-                placeholder="SET INTERVAL"
-                value={messageInterval}
-                disabled={isStarting}
-              />
+
+        <div className="box-contact">
+          <div className={`box-contact-filters${isFilter ? " show" : ""}`}>
+            <div className="box-contact-filters-wrapper">
+              <h2>Filter Data</h2>
+              <button type="button" className="filters-close-btn" onClick={closeFilter}>
+                <i className="resitdc icon-x"></i>
+              </button>
+              <div className="mt-7">
+                <div className="mb-5">
+                  <label>ORDER</label>
+                  <select name="" id="" className="form-input">
+                    <option value="">RANDOM</option>
+                    <option value="">Name A - Z</option>
+                    <option value="">Name Z - A</option>
+                  </select>
+                </div>
+                <div className="mb-5">
+                  <label className="noselect cursor-pointer">
+                    <input
+                      type="checkbox"
+                    />
+                    Tampilkan yang belum pernah dapat bulk
+                  </label>
+                </div>
+              </div>
             </div>
-            <div className="mt-8">
+          </div>
+          <div className="box-contact-header">
+            <div className="row row-x-space-between">
+              <div className="col-3">
+                <input
+                  type="number"
+                  className="form-input"
+                  onChange={onChangeInterval}
+                  placeholder="SET INTERVAL"
+                  value={messageInterval}
+                  disabled={isStarting}
+                />
+              </div>
+              <div className="col-7">
+                <div className="row">
+                  <div className="col-6">
+                    <input
+                      type="number"
+                      className="form-input"
+                      onChange={onChangeContact}
+                      placeholder="TOTAL CONTACT"
+                      value={limit}
+                      disabled={isStarting}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <input
+                      type="search"
+                      className="form-input"
+                      placeholder="Search"
+                      value={searchContact}
+                      onChange={onSearchContact}
+                      disabled={isStarting}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-2">
+                <Button
+                  heightFull
+                  color="primary"
+                  full
+                  md
+                  onClick={openFilter}
+                >
+                  Filter
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="box-contact-body" ref={dataResults}>
+            <div className="contact-body-left">
               <BoxInfo title="Informasi" color="green">
                 {
                   informasi
@@ -219,35 +325,22 @@ const Bulk = () => {
                 }
               </BoxInfo>
             </div>
-          </div>
-          <div className="col-9">
-            <div className="box-contact">
-              <div className="box-contact-header">
-                <input
-                  type="number"
-                  className="form-input"
-                  onChange={onChangeContact}
-                  placeholder="TOTAL CONTACT"
-                  value={limit}
-                  disabled={isStarting}
-                />
-              </div>
-              <div className="box-contact-body" ref={dataResults}>
-                {
-                  isFetching
-                    ? <h1 className="text-center">LOADING DATA....</h1>
-                    : listData.length > 0 &&
-                      listData.map((item, index) => {
-                        return (
-                          <div className="contact-info" whatsapp={item.whatsapp} key={index}>
-                            <div className="contact-info-no" order={index + 1}>{item.whatsapp}</div>
-                            <div className="contact-info-name">{item.name}</div>
-                            <div className="contact-info-status" style={{ display: "none" }}></div>
-                          </div>
-                        );
-                      })
-                }
-              </div>
+            <div className="contact-body-right">
+              {
+                isFetching
+                  ? <h1 className="text-center">LOADING DATA....</h1>
+                  : listData.length > 0
+                    ? listData.map((item, index) => {
+                      return (
+                        <div className="contact-info" whatsapp={item.whatsapp} key={index}>
+                          <div className="contact-info-no" order={index + 1}>{item.whatsapp}</div>
+                          <div className="contact-info-name">{item.name}</div>
+                          <div className="contact-info-status" style={{ display: "none" }}></div>
+                        </div>
+                      );
+                    })
+                    : <h1 className="text-center py-8">NO DATA</h1>
+              }
             </div>
           </div>
         </div>
@@ -257,8 +350,9 @@ const Bulk = () => {
             type="button"
             color="black"
             loading={isStarting}
+            disabled={listData.length === 0}
             full
-            md
+            lg
             onClick={() => { startSystem(); }}
           >
             START

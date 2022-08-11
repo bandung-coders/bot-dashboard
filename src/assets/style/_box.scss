@@ -1,3 +1,12 @@
+@keyframes slideFilter {
+  0% {
+    transform: translateX(282px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 .box {
   &-info {
     width: 100%;
@@ -77,21 +86,35 @@
   }
   &-contact {
     width: 100%;
+    position: relative;
+    overflow: hidden;
     & &-header {
       width: 100%;
-      position: relative;
       background-color: var(--color-black-1);
       padding: 8px 15px;
     }
     & &-body {
       width: 100%;
-      position: relative;
       background-color: var(--color-white);
       border: 1px solid var(--color-black-1);
-      padding: 10px 15px;
-      max-height: 300px;
-      overflow-y: auto;
-      overflow-x: hidden;
+      height: 300px;
+      display: flex;
+      flex-wrap: nowrap;
+      & .contact-body {
+        $body-left-width: 280px;
+        &-left {
+          width: $body-left-width;
+          padding: 10px 20px;
+          @extend .bg-black-1;
+        }
+        &-right {
+          width: calc(100% - #{$body-left-width});
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          padding: 10px 15px;
+        }
+      }
       & .contact-info {
         margin-bottom: 15px;
         display: flex;
@@ -128,5 +151,69 @@
         }
       }
     }
+    & &-filters {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 280px;
+      background: var(--color-black-1);
+      z-index: 10;
+      &-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 15px 25px;
+        color: var(--color-white);
+      }
+      & button.filters-close-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        margin-top: 10px;
+        margin-right: 20px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background: none;
+        font-size: 2rem;
+        color: var(--color-red-1);
+      }
+      &.show {
+        display: inline-block;
+        animation-name: slideFilter;
+        animation-duration: 0.4s;
+      }
+    }
   }
+  &-variasi {
+    width: 300px;
+    position: relative;
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+    & &-header {
+      padding: 10px 15px;
+      background: var(--color-black-1);
+      border: 1px solid var(--color-black-1);
+      color: var(--color-white);
+      font-size: 1.2rem;
+    }
+    & &-body {
+      padding: 15px 15px;
+      border: 1px solid var(--color-black-1);
+      background: var(--color-black-2);
+    }
+  }
+}
+
+.list-variasi {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
