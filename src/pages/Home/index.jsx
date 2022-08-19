@@ -33,7 +33,9 @@ const Home = () => {
           <div className="col-6">
             <div className="">
               <BoxInfo title="PERINGATAN PENTING" color="red">
-                <h2>System ini hanya didesain untuk 4 whatsapp session</h2>
+                <h2>System ini hanya didesain untuk 9 whatsapp session.</h2>
+                <br />
+                <h2>Ada bug ketika disconnect whatsapp, so kalo udah connect jangan pernah coba coba di disconnect</h2>
                 <hr />
                 <p>System ini masih belum diuji sepenuhnya secara Alpha, perlu pengujian tingkat Beta lalu Production</p>
               </BoxInfo>

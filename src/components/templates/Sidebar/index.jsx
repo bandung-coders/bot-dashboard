@@ -16,11 +16,7 @@ const sidebarMenu = [
   },
   {
     link: "/bulk",
-    title: "Bulk Message",
-  },
-  {
-    link: "/whatsapp",
-    title: "Whatsapp",
+    title: "Broadcast Message",
   },
   {
     link: "/history",

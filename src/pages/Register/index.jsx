@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "services/axios";
 import { Button } from "components/atoms";
 
-const Checkin = () => {
+const Register = () => {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -11,17 +13,16 @@ const Checkin = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      user: email,
+      name,
+      email,
       password,
     };
     setIsLoading(true);
     try {
-      const response = await axios.post("auth/login", formData);
+      const response = await axios.post("auth/register", formData);
       if (response.data.success) {
-        localStorage.setItem("token", response.data.accessToken);
-        setTimeout(() => {
-          window.location.href = window.location.origin;
-        }, 400);
+        navigate("/login");
+        alert("REGISTER SUCCESS, CHECK YOUR EMAIL");
       }
     } catch (error) {
       if (error.response.data) {
@@ -44,12 +45,19 @@ const Checkin = () => {
           </svg>
         </div>
         <div className="checkin-title text-center mt-3">
-          LOGIN TO USE BOT
+          FILL THIS FORM TO REGISTER
         </div>
         <form onSubmit={onSubmit} className="mt-4">
           <input
-            type="text"
+            type="name"
+            maxLength="40"
             className="form-input dark"
+            onChange={(e) => { setName(e.target.value); }}
+            placeholder="NAME"
+          />
+          <input
+            type="email"
+            className="form-input dark mt-3"
             onChange={(e) => { setEmail(e.target.value); }}
             placeholder="EMAIL"
           />
@@ -65,11 +73,11 @@ const Checkin = () => {
               className="btn-checkin"
               loading={isLoading}
             >
-              LOGIN
+              REQUEST ACCOUNT
             </Button>
           </div>
           <div className="text-center">
-            <Link to="/register" className="hidden-anchor bold c-white py-4 px-2"> REQUEST ACCOUNT </Link>
+            <Link to="/login" className="hidden-anchor bold c-white py-4 px-2"> LOGIN </Link>
           </div>
         </form>
       </div>
@@ -77,4 +85,4 @@ const Checkin = () => {
   );
 };
 
-export default Checkin;
+export default Register;

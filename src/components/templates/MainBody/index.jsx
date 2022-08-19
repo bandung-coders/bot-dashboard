@@ -2,26 +2,57 @@ import React, { useState, useEffect } from "react";
 import { Sidebar } from "components/templates";
 import { getBotLocalData } from "utils/helpers";
 import { useLocation } from "react-router-dom";
+import axios from "services/axios";
 
 const MainBody = (props) => {
   const location = useLocation();
+  const [botList, setBotList] = useState([
+    {
+      id: "bot-1",
+      title: "CHANEL 1",
+      waNumber: "",
+      waName: "",
+    },
+  ]);
   const [bot, setBot] = useState("bot-1");
 
   useEffect(() => {
+    getBotList();
     getBot();
   }, []);
 
   const setBotLocalData = (e) => {
     localStorage.setItem("bot", e.target.value);
     setBot(e.target.value);
-    if (location.pathname === "/") {
-      window.location.reload();
-    }
+    window.location.reload();
   };
 
   const getBot = () => {
     const results = getBotLocalData();
     setBot(results);
+  };
+
+  const getBotList = async () => {
+    try {
+      const response = await axios.get("/");
+      const list = [];
+      if (response.data.whatsapp_bot) {
+        let i = 1;
+        const whatsappBot = response.data.whatsapp_bot;
+        for (const key in whatsappBot) {
+          list.push({
+            id: key,
+            title: "CHANNEL " + i,
+            waNumber: whatsappBot[key].information.me ? whatsappBot[key].information.me.user : "",
+            waName: whatsappBot[key].information.pushname ? whatsappBot[key].information.pushname : "",
+          });
+          i++;
+        }
+      }
+      setBotList(list);
+    } catch (error) {
+      setBotList([]);
+    }
   };
 
   return (
@@ -30,14 +61,25 @@ const MainBody = (props) => {
         <h1>RESTU DWI CAHYO GANTENG</h1>
         <div className="bot">
           <div className="bot-label">
-            SELECT BOT
+            SELECT CHANNEL
           </div>
           <div className="bot-form">
             <select value={bot} onChange={setBotLocalData} className="form-bot">
-              <option value="bot-1">BOT - 1</option>
-              <option value="bot-2">BOT - 2</option>
-              <option value="bot-3">BOT - 3</option>
-              <option value="bot-4">BOT - 4</option>
+              {
+                botList.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.title}
+                    {
+                      item.waName &&
+                      ` - ${item.waName}`
+                    }
+                    {
+                      item.waNumber &&
+                      ` - ${item.waNumber}`
+                    }
+                  </option>
+                ))
+              }
             </select>
           </div>
         </div>

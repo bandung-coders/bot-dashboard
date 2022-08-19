@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { MainBody } from "components/templates";
 import { Button } from "components/atoms";
 import { BoxInfo } from "components/molecules";
+import readXlsxFile from "read-excel-file";
 import axios from "services/axios";
 import { secondsToHms, getBotLocalData } from "utils/helpers";
 
@@ -18,11 +19,12 @@ const Bulk = () => {
   const [informasi, setInformasi] = useState("");
   const [searchContact, setSearchContact] = useState("");
   const [isFilter, setIsFilter] = useState(false);
+  const [dataType, setDataType] = useState("excel");
   const dataResults = useRef(null);
   const botId = getBotLocalData();
 
   useEffect(() => {
-    loadFirst(limit);
+    // loadFirst(limit);
   }, []);
 
   const onChangeContact = (e) => {
@@ -115,7 +117,7 @@ const Bulk = () => {
     const detik = currentInterval * currentLimit;
     const waktu = secondsToHms(detik);
 
-    const text = "Butuh waktu <b>" + waktu + "</b> untuk menjalankan misi ini";
+    const text = "Butuh waktu <b>" + waktu + "</b> untuk menjalankan broadcast ini";
     setInformasi(text);
   };
 
@@ -130,11 +132,20 @@ const Bulk = () => {
       botId: botId,
     };
     try {
-      const response = await axios.post("wa/send/image", formData);
-      if (response.data.success) {
-        statusSet("success", whatsappDestination);
+      if (imageBase64) {
+        const response = await axios.post("wa/send/image", formData);
+        if (response.data.success) {
+          statusSet("success", whatsappDestination);
+        } else {
+          statusSet("failed", whatsappDestination);
+        }
       } else {
-        statusSet("failed", whatsappDestination);
+        const response = await axios.post("wa/send/message", formData);
+        if (response.data.success) {
+          statusSet("success", whatsappDestination);
+        } else {
+          statusSet("failed", whatsappDestination);
+        }
       }
     } catch (error) {
       console.log("ERROR BRODIE ====>", whatsappDestination, error.response.data);
@@ -189,9 +200,40 @@ const Bulk = () => {
     setIsFilter(false);
   };
 
+  const onSelectExcel = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setIsFetching(true);
+      const list = [];
+      readXlsxFile(file).then((rows) => {
+        if (rows) {
+          if (rows.length > 1) {
+            rows.forEach((item, index) => {
+              if (index > 0) {
+                list.push({
+                  whatsapp: item[1] || "6281546416749",
+                  name: item[0] || "kak",
+                });
+              }
+            });
+            generateInformasi(list.length, messageInterval);
+            setListData(list);
+            setIsFetching(false);
+          } else {
+            setListData([]);
+            setIsFetching(false);
+          }
+        } else {
+          setListData([]);
+          setIsFetching(false);
+        }
+      });
+    }
+  };
+
   return (
     <MainBody>
-      <h1>BULK PAGE</h1>
+      <h1>BROADCAST PAGE</h1>
       <div className="mt-10 mb-15">
         <div className="mb-10">
           <div className="box-variasi">
@@ -239,6 +281,68 @@ const Bulk = () => {
           </div> */}
         </div>
 
+        <div className="d-flex align-x-right mb-6">
+          <label className="form-radio">
+            <div className="form-radio-check">
+              <input
+                type="radio"
+                className="form-radio-input"
+                name="dataType"
+                value="online"
+                checked={dataType === "online"}
+                onChange={(e) => {
+                  loadFirst(limit);
+                  setDataType(e.target.value);
+                }}
+              />
+              <div className="form-radio-box"></div>
+            </div>
+            <div className="form-radio-title">
+              ONLINE DATA
+            </div>
+          </label>
+          <label className="form-radio">
+            <div className="form-radio-check">
+              <input
+                type="radio"
+                className="form-radio-input"
+                name="dataType"
+                value="google"
+                checked={dataType === "google"}
+                onChange={(e) => {
+                  setListData([]);
+                  setInformasi("");
+                  setDataType(e.target.value);
+                }}
+              />
+              <div className="form-radio-box"></div>
+            </div>
+            <div className="form-radio-title">
+              GOOGLE SHEET DATA
+            </div>
+          </label>
+          <label className="form-radio">
+            <div className="form-radio-check">
+              <input
+                type="radio"
+                className="form-radio-input"
+                name="dataType"
+                value="excel"
+                checked={dataType === "excel"}
+                onChange={(e) => {
+                  setInformasi("");
+                  setListData([]);
+                  setDataType(e.target.value);
+                }}
+              />
+              <div className="form-radio-box"></div>
+            </div>
+            <div className="form-radio-title">
+              EXCEL DATA
+            </div>
+          </label>
+        </div>
+
         <div className="box-contact">
           <div className={`box-contact-filters${isFilter ? " show" : ""}`}>
             <div className="box-contact-filters-wrapper">
@@ -278,46 +382,81 @@ const Bulk = () => {
                   disabled={isStarting}
                 />
               </div>
-              <div className="col-7">
-                <div className="row">
-                  <div className="col-6">
-                    <input
-                      type="number"
-                      className="form-input"
-                      onChange={onChangeContact}
-                      placeholder="TOTAL CONTACT"
-                      value={limit}
-                      disabled={isStarting}
-                    />
-                  </div>
-                  <div className="col-6">
-                    <input
-                      type="search"
-                      className="form-input"
-                      placeholder="Search"
-                      value={searchContact}
-                      onChange={onSearchContact}
-                      disabled={isStarting}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-2">
-                <Button
-                  heightFull
-                  color="primary"
-                  full
-                  md
-                  onClick={openFilter}
-                >
-                  Filter
-                </Button>
-              </div>
+              {(() => {
+                switch (dataType) {
+                case "online":
+                  return (
+                    <>
+                      <div className="col-7">
+                        <div className="row">
+                          <div className="col-6">
+                            <input
+                              type="number"
+                              className="form-input"
+                              onChange={onChangeContact}
+                              placeholder="TOTAL CONTACT"
+                              value={limit}
+                              disabled={isStarting}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <input
+                              type="search"
+                              className="form-input"
+                              placeholder="Search"
+                              value={searchContact}
+                              onChange={onSearchContact}
+                              disabled={isStarting}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-2">
+                        <Button
+                          heightFull
+                          color="primary"
+                          full
+                          md
+                          onClick={openFilter}
+                        >
+                            Filter
+                        </Button>
+                      </div>
+                    </>
+                  );
+                case "google":
+                  return (
+                    <div className="col-6">
+                      <input
+                        type="link"
+                        placeholder="GOOGLE SHEET LINK"
+                        className="form-input py-4"
+                      />
+                    </div>
+                  );
+                case "excel":
+                  return (
+                    <div className="col-9 d-flex align-y-center align-x-right pr-5">
+                      <div className="form-excel">
+                        <input
+                          type="file"
+                          className="form-excel-input"
+                          accept=".xlsx"
+                          onChange={onSelectExcel}
+                        />
+                        <div className="form-excel-title">
+                          PILIH FILE EXCEL
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })()}
             </div>
           </div>
           <div className="box-contact-body" ref={dataResults}>
             <div className="contact-body-left">
-              <BoxInfo title="Informasi" color="green">
+              <BoxInfo title="Informasi" color="yellow">
                 {
                   informasi
                     ? <div dangerouslySetInnerHTML={{ __html: informasi }}></div>

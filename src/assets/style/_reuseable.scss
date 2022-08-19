@@ -26,10 +26,10 @@
   &-x-right {
     justify-content: flex-end;
   }
-  &-x-center {
+  &-y-center {
     align-items: center;
   }
-  &-y-center {
+  &-x-center {
     justify-content: center;
   }
 }
@@ -651,4 +651,8 @@ $p-directions: "pb", "pt", "pl", "pr", "px", "py";
 .checkin-logo {
   display: flex;
   justify-content: center;
+}
+
+.c-white {
+  color: var(--color-white);
 }

@@ -6,7 +6,7 @@ const Whatsapp = () => {
     <MainBody>
       <h1>Whatsapp</h1>
       <div className="mt-10">
-        <h1 className="text-center">COMING SOON FEATURES</h1>
+
       </div>
     </MainBody>
   );

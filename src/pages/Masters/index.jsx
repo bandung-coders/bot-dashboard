@@ -11,6 +11,7 @@ const MasterData = () => {
   const [totalData, setTotalData] = useState(0);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(15);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const [isModalAdd, setIsModalAdd] = useState(false);
@@ -33,6 +34,7 @@ const MasterData = () => {
 
   const loadFirst = async () => {
     setPage(1);
+    setIsLoading(true);
     try {
       const response = await fetchApi();
       if (response.data.success) {
@@ -42,6 +44,8 @@ const MasterData = () => {
       }
     } catch (error) {
       alert("ERROR GET DATA");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -204,16 +208,24 @@ const MasterData = () => {
           </thead>
           <tbody>
             {
-              listData.map((item, index) => {
-                return (
-                  <Row
-                    key={index}
-                    order={index + 1}
-                    data={item}
-                    onDelete={(e) => { onDelete(e); }}
-                  />
-                );
-              })
+              isLoading
+                ? <tr>
+                  <td className="text-center" colSpan={4}>
+                    <h2 className="py-4">
+                      LOADING...
+                    </h2>
+                  </td>
+                </tr>
+                : listData.map((item, index) => {
+                  return (
+                    <Row
+                      key={index}
+                      order={index + 1}
+                      data={item}
+                      onDelete={(e) => { onDelete(e); }}
+                    />
+                  );
+                })
             }
           </tbody>
         </table>

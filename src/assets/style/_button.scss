@@ -134,4 +134,16 @@
     padding: 10px 10px;
     cursor: pointer;
   }
+  &-register {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    background: var(--color-white);
+    color: var(--color-black-1);
+    font-weight: bold;
+    padding: 10px 10px;
+    cursor: pointer;
+  }
 }

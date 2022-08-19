@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Button = (props) => {
-  const navigate = useNavigate();
   const {
     type,
     disabled,
@@ -90,6 +89,7 @@ const Button = (props) => {
 
   const onClickHandler = (e) => {
     if (href) {
+      const navigate = useNavigate();
       navigate(href);
     } else {
       if (props.onClick) props.onClick(e);

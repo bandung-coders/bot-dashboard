@@ -10,6 +10,7 @@ const Scheduler = () => {
   const [totalData, setTotalData] = useState(0);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(15);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const [selectedData, setSelectedData] = useState({});
@@ -28,6 +29,7 @@ const Scheduler = () => {
   };
 
   const loadFirst = async () => {
+    setIsLoading(true);
     setPage(1);
     try {
       const response = await fetchApi();
@@ -38,6 +40,8 @@ const Scheduler = () => {
       }
     } catch (error) {
       alert("ERROR GET DATA");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,16 +105,24 @@ const Scheduler = () => {
           </thead>
           <tbody>
             {
-              listData.map((item, index) => {
-                return (
-                  <Row
-                    key={index}
-                    order={index + 1}
-                    data={item}
-                    onDelete={(e) => { onDelete(e); }}
-                  />
-                );
-              })
+              isLoading
+                ? <tr>
+                  <td className="text-center" colSpan={4}>
+                    <h2 className="py-4">
+                    LOADING...
+                    </h2>
+                  </td>
+                </tr>
+                : listData.map((item, index) => {
+                  return (
+                    <Row
+                      key={index}
+                      order={index + 1}
+                      data={item}
+                      onDelete={(e) => { onDelete(e); }}
+                    />
+                  );
+                })
             }
           </tbody>
         </table>
