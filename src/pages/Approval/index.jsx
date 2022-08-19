@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "services/axios";
 import { Button } from "components/atoms";
@@ -6,8 +6,27 @@ import { Button } from "components/atoms";
 const Approval = () => {
   const navigate = useNavigate();
   const params = useParams();
+  const [user, setUser] = useState({});
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    getDataUser();
+  }, []);
+
+  const getDataUser = async () => {
+    const userId = params.id;
+    try {
+      const response = await axios.get("auth/user/" + userId);
+      setUser(response.data.results);
+    } catch (error) {
+      if (error.response.data) {
+        alert(error.response.data.message);
+      } else {
+        alert("SOMETHING WRONG");
+      }
+    }
+  };
 
   const onApprove = async (status) => {
     const userId = params.id;
@@ -43,54 +62,64 @@ const Approval = () => {
           </svg>
           <h4 className="ml-2" style={{ color: "var(--color-white)" }}>RESITDC</h4>
         </div>
-        <div className="checkin-title text-center mt-13">
-          <h1>
-            Approval for
-          </h1>
-        </div>
-        <div className="mt-5">
-          <input
-            type="password"
-            className="form-input dark text-center"
-            placeholder="PASSWORD"
-            onChange={(e) => { setPassword(e.target.value); }}
-            disabled={isLoading}
-          />
-        </div>
-        <div className="row mt-8">
-          <div className="col-6">
-            <Button
-              type="button"
-              color="primary"
-              radius="xl"
-              full
-              md
-              className="py-2"
-              loading={isLoading}
-              onClick={() => {
-                onApprove("approved");
-              }}
-            >
-              ACCEPT
-            </Button>
-          </div>
-          <div className="col-6">
-            <Button
-              type="button"
-              color="red"
-              radius="xl"
-              full
-              md
-              className="py-2"
-              loading={isLoading}
-              onClick={() => {
-                onApprove("rejected");
-              }}
-            >
-              REJECT
-            </Button>
-          </div>
-        </div>
+        {
+          user.isActive
+            ? <div className="checkin-title text-center mt-13 mb-10">
+              <h1>
+                { user.name || "This user"} has been Approved.
+              </h1>
+            </div>
+            : <>
+              <div className="checkin-title text-center mt-13">
+                <h1>
+                  Approval for { user.name || "user" }
+                </h1>
+              </div>
+              <div className="mt-5">
+                <input
+                  type="password"
+                  className="form-input dark text-center"
+                  placeholder="PASSWORD"
+                  onChange={(e) => { setPassword(e.target.value); }}
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="row mt-8">
+                <div className="col-6">
+                  <Button
+                    type="button"
+                    color="primary"
+                    radius="xl"
+                    full
+                    md
+                    className="py-2"
+                    loading={isLoading}
+                    onClick={() => {
+                      onApprove("approved");
+                    }}
+                  >
+                  ACCEPT
+                  </Button>
+                </div>
+                <div className="col-6">
+                  <Button
+                    type="button"
+                    color="red"
+                    radius="xl"
+                    full
+                    md
+                    className="py-2"
+                    loading={isLoading}
+                    onClick={() => {
+                      onApprove("rejected");
+                    }}
+                  >
+                  REJECT
+                  </Button>
+                </div>
+              </div>
+            </>
+        }
       </div>
     </div>
   );
