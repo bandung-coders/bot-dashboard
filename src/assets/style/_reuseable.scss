@@ -285,8 +285,26 @@
   }
 }
 
-.overflow-hidden {
-  overflow: hidden;
+.overflow {
+  &-x {
+    &-hidden {
+      overflow-x: hidden;
+    }
+    &-auto {
+      overflow-x: auto;
+    }
+  }
+  &-y {
+    &-hidden {
+      overflow-y: hidden;
+    }
+    &-auto {
+      overflow-y: auto;
+    }
+  }
+  &-hidden {
+    overflow: hidden;
+  }
 }
 
 %border-style {
@@ -655,4 +673,30 @@ $p-directions: "pb", "pt", "pl", "pr", "px", "py";
 
 .c-white {
   color: var(--color-white);
+}
+
+.user {
+  $avatar-size: 35px;
+  display: inline-flex;
+  min-width: 100px;
+  align-items: center;
+  margin-left: 50px;
+  & &-avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    &-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+    }
+  }
+  & &-info {
+    padding-left: 10px;
+    width: calc(100% - #{$avatar-size});
+  }
+  & &-name {
+    padding-left: 10px;
+    letter-spacing: 1px;
+    color: var(--color-white);
+  }
 }

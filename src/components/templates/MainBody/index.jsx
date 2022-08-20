@@ -6,6 +6,7 @@ import axios from "services/axios";
 
 const MainBody = (props) => {
   const location = useLocation();
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [botList, setBotList] = useState([
     {
       id: "bot-1",
@@ -30,6 +31,10 @@ const MainBody = (props) => {
   const getBot = () => {
     const results = getBotLocalData();
     setBot(results);
+  };
+
+  const toggleSidebar = () => {
+    setIsOpenSidebar(!isOpenSidebar);
   };
 
   const getBotList = async () => {
@@ -58,7 +63,16 @@ const MainBody = (props) => {
   return (
     <>
       <div className="main-navbar">
-        <h1>RESTU DWI CAHYO GANTENG</h1>
+        <h2>RESTU DWI CAHYO GANTENG</h2>
+        <button
+          type="button"
+          className="toggle-sidebar"
+          onClick={() => {
+            toggleSidebar();
+          }}
+        >
+          <span className="resitdc icon-menu"></span>
+        </button>
         <div className="bot">
           <div className="bot-label">
             SELECT CHANNEL
@@ -83,8 +97,14 @@ const MainBody = (props) => {
             </select>
           </div>
         </div>
+        {/* <div className="user">
+          <div className="user-avatar">
+            <img src="https://resitdc.s3.ap-southeast-1.amazonaws.com/images/avatar/resitdc-2.jpg" alt="USER AVATAR IMAGE" className="user-avatar-image" />
+          </div>
+          <div className="user-name">RESTU DWI CAHYO</div>
+        </div> */}
       </div>
-      <Sidebar />
+      <Sidebar onClose={() => { setIsOpenSidebar(false); }} isActive={isOpenSidebar} />
       <div className="main-body">
         {props.children}
       </div>

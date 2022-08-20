@@ -30,7 +30,7 @@ const Home = () => {
       <h1>Home Page</h1>
       <div className="mt-10">
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 col-mobile-12">
             <div className="">
               <BoxInfo title="PERINGATAN PENTING" color="red">
                 <h2>System ini hanya didesain untuk 9 whatsapp session.</h2>
@@ -51,10 +51,10 @@ const Home = () => {
                 <li>Jika sudah terhubung image akan berubah menjadi CONNECTED</li>
               </ol>
               <h2 className="mt-15 mb-5">SCAN THIS BARCODE WITH YOUR WHATSAPP</h2>
-              <img src={backendHost + "/wa/barcode/" + botId} width="400px" alt="" />
+              <img src={backendHost + "/wa/barcode/" + botId} className="whatsapp-barcode" alt="WHATSAPP BARCODE" />
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-6 col-mobile-12">
             <h2>Fitur yang akan datang :</h2>
             {
               features.length > 0

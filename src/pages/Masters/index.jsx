@@ -176,7 +176,7 @@ const MasterData = () => {
       />
       <div className="mt-10">
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 col-mobile-12">
             <Button
               type="button"
               color="black"
@@ -193,9 +193,7 @@ const MasterData = () => {
               IMPORT DATA
             </Button>
           </div>
-          <div className="col-6">
-
-          </div>
+          <div className="col-6 display-mobile-none"></div>
         </div>
         <table className="resit-table">
           <thead>

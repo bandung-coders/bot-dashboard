@@ -158,6 +158,9 @@
     position: relative;
     margin-right: 8px;
   }
+  & &-title {
+    white-space: nowrap;
+  }
   & &-box {
     width: 100%;
     height: 100%;

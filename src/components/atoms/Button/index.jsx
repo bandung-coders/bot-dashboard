@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Button = (props) => {
+  let navigate;
   const {
     type,
     disabled,
@@ -19,6 +20,11 @@ const Button = (props) => {
     tooltipMessage,
     heightFull,
   } = props;
+
+  if (href) {
+    navigate = useNavigate();
+  }
+
   const className = ["btn"];
 
   // #region - BUTTON COLOR
@@ -89,7 +95,6 @@ const Button = (props) => {
 
   const onClickHandler = (e) => {
     if (href) {
-      const navigate = useNavigate();
       navigate(href);
     } else {
       if (props.onClick) props.onClick(e);

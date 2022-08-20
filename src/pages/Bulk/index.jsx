@@ -281,7 +281,7 @@ const Bulk = () => {
           </div> */}
         </div>
 
-        <div className="d-flex align-x-right mb-6">
+        <div className="d-flex align-x-right mb-6 overflow-x-auto width-full">
           <label className="form-radio">
             <div className="form-radio-check">
               <input

@@ -138,7 +138,7 @@ ol {
     padding-left: ($sidebar-width + 20px);
     padding-right: 20px;
     justify-content: space-between;
-    & h1 {
+    & h2 {
       color: #353535;
     }
     & .bot {
@@ -251,6 +251,37 @@ ol {
   }
 }
 
+.toggle-sidebar {
+  display: none;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  color: var(--color-primary);
+  font-size: 2rem;
+}
+
+.close-sidebar {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: -40px;
+  outline: none;
+  border: none;
+  background: var(--color-red-1);
+  color: var(--color-white);
+  width: 40px;
+  height: 100%;
+  & span {
+    font-size: 1.7rem;
+  }
+}
+
+.whatsapp-barcode {
+  width: 400px;
+}
+
 @import "flex";
 @import "reuseable";
 @import "box";
@@ -259,3 +290,4 @@ ol {
 @import "button";
 @import "modal";
 @import "colors";
+@import "responsive";
