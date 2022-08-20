@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MainBody } from "components/templates";
 import { Button } from "components/atoms";
-import { BoxInfo } from "components/molecules";
+import { BoxInfo, AttachFile } from "components/molecules";
 import readXlsxFile from "read-excel-file";
 import axios from "services/axios";
 import { secondsToHms, getBotLocalData } from "utils/helpers";
@@ -155,38 +155,6 @@ const Bulk = () => {
     }
   };
 
-  const changeImage1 = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = _handleReaderLoaded1;
-      reader.readAsBinaryString(file);
-    }
-  };
-
-  const _handleReaderLoaded1 = (readerEvt) => {
-    const binaryString = readerEvt.target.result;
-    const base64Convert = window.btoa(binaryString, "base64");
-    // setBase64(`data:image/png;base64,${base64Convert}`);
-    setMessageImage1(base64Convert);
-  };
-
-  const changeImage2 = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = _handleReaderLoaded2;
-      reader.readAsBinaryString(file);
-    }
-  };
-
-  const _handleReaderLoaded2 = (readerEvt) => {
-    const binaryString = readerEvt.target.result;
-    const base64Convert = window.btoa(binaryString, "base64");
-    // setBase64(`data:image/png;base64,${base64Convert}`);
-    setMessageImage2(base64Convert);
-  };
-
   const onSearchContact = (e) => {
     loadFirst(limit, e.target.value ? e.target.value : "");
     setSearchContact(e.target.value);
@@ -202,32 +170,38 @@ const Bulk = () => {
 
   const onSelectExcel = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setIsFetching(true);
-      const list = [];
-      readXlsxFile(file).then((rows) => {
-        if (rows) {
-          if (rows.length > 1) {
-            rows.forEach((item, index) => {
-              if (index > 0) {
-                list.push({
-                  whatsapp: item[1] || "6281546416749",
-                  name: item[0] || "kak",
-                });
-              }
-            });
-            generateInformasi(list.length, messageInterval);
-            setListData(list);
-            setIsFetching(false);
+    if (e.target.value.length > 0) {
+      if (file) {
+        setIsFetching(true);
+        const list = [];
+        readXlsxFile(file).then((rows) => {
+          if (rows) {
+            if (rows.length > 1) {
+              rows.forEach((item, index) => {
+                if (index > 0) {
+                  list.push({
+                    whatsapp: item[1] || "6281546416749",
+                    name: item[0] || "kak",
+                  });
+                }
+              });
+              generateInformasi(list.length, messageInterval);
+              setListData(list);
+              setIsFetching(false);
+            } else {
+              setListData([]);
+              setIsFetching(false);
+            }
           } else {
             setListData([]);
             setIsFetching(false);
           }
-        } else {
-          setListData([]);
-          setIsFetching(false);
-        }
-      });
+        });
+      } else {
+        setListData([]);
+      }
+    } else {
+      setListData([]);
     }
   };
 
@@ -236,25 +210,33 @@ const Bulk = () => {
       <h1>BROADCAST PAGE</h1>
       <div className="mt-10 mb-15">
         <div className="mb-10">
-          <div className="box-variasi">
-            <div className="box-variasi-header">
-              Pesan Variasi 1
-            </div>
-            <div className="box-variasi-body">
-              <textarea
-                rows="7"
-                className="form-input"
-                value={message1}
-                onChange={(e) => { setMessage1(e.target.value); }}
-                placeholder="Tulis pesan disini"
-              ></textarea>
-              <input
-                type="file"
-                onChange={(e) => {
-                  changeImage1(e);
-                }}
-                accept="image/jpg, image/jpeg, image/png"
-              />
+          <div className="overflow-x-auto width-full">
+            <div className="box-variasi">
+              <div className="box-variasi-header">
+                Pesan Variasi 1
+              </div>
+              <div className="box-variasi-body">
+                <textarea
+                  rows="7"
+                  className="form-input"
+                  value={message1}
+                  onChange={(e) => { setMessage1(e.target.value); }}
+                  placeholder="Tulis pesan disini"
+                ></textarea>
+                <AttachFile
+                  label="PILIH GAMBAR"
+                  onChange={(base64Image) => {
+                    setMessageImage1(base64Image);
+                  }}
+                />
+                {/* <input
+                  type="file"
+                  onChange={(e) => {
+                    changeImage1(e);
+                  }}
+                  accept="image/jpg, image/jpeg, image/png"
+                /> */}
+              </div>
             </div>
           </div>
           {/* <div className="col-3">
@@ -422,7 +404,7 @@ const Bulk = () => {
                             md
                             onClick={openFilter}
                           >
-                              Filter
+                            Filter
                           </Button>
                         </div>
                       </>

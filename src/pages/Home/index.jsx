@@ -28,12 +28,12 @@ const Home = () => {
   return (
     <MainBody>
       <h1>Home Page</h1>
-      <div className="mt-10">
+      <div className="mt-10 mb-15">
         <div className="row">
           <div className="col-6 col-mobile-12">
             <div className="">
               <BoxInfo title="PERINGATAN PENTING" color="red">
-                <h2>System ini hanya didesain untuk 8 whatsapp session.</h2>
+                <h2>System ini hanya didesain untuk 9 whatsapp session.</h2>
                 <br />
                 <h2>Ada bug ketika disconnect whatsapp, so kalo udah connect jangan pernah coba coba di disconnect</h2>
                 <hr />
