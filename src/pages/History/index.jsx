@@ -70,32 +70,34 @@ const History = () => {
     <MainBody>
       <h1>History</h1>
       <div className="mt-10">
-        <table className="resit-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Title</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              listData.map((item, index) => {
-                return (
-                  <Row
-                    key={index}
-                    order={index + 1}
-                    data={item}
-                    onDelete={(e) => { onDelete(e); }}
-                  />
-                );
-              })
-            }
-          </tbody>
-        </table>
+        <div className="overflow-x-auto width-full">
+          <table className="resit-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                listData.map((item, index) => {
+                  return (
+                    <Row
+                      key={index}
+                      order={index + 1}
+                      data={item}
+                      onDelete={(e) => { onDelete(e); }}
+                    />
+                  );
+                })
+              }
+            </tbody>
+          </table>
+        </div>
         {
           totalData > listData.length &&
           <div className="text-center">

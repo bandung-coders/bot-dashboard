@@ -195,38 +195,40 @@ const MasterData = () => {
           </div>
           <div className="col-6 display-mobile-none"></div>
         </div>
-        <table className="resit-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Whatsapp</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              isLoading
-                ? <tr>
-                  <td className="text-center" colSpan={4}>
-                    <h2 className="py-4">
-                      LOADING...
-                    </h2>
-                  </td>
-                </tr>
-                : listData.map((item, index) => {
-                  return (
-                    <Row
-                      key={index}
-                      order={index + 1}
-                      data={item}
-                      onDelete={(e) => { onDelete(e); }}
-                    />
-                  );
-                })
-            }
-          </tbody>
-        </table>
+        <div className="overflow-x-auto width-full">
+          <table className="resit-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th width="300px">Name</th>
+                <th>Whatsapp</th>
+                <th className="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                isLoading
+                  ? <tr>
+                    <td className="text-center" colSpan={4}>
+                      <h2 className="py-4">
+                        LOADING...
+                      </h2>
+                    </td>
+                  </tr>
+                  : listData.map((item, index) => {
+                    return (
+                      <Row
+                        key={index}
+                        order={index + 1}
+                        data={item}
+                        onDelete={(e) => { onDelete(e); }}
+                      />
+                    );
+                  })
+              }
+            </tbody>
+          </table>
+        </div>
         {
           totalData > listData.length &&
           <div className="text-center">

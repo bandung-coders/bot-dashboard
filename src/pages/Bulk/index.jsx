@@ -281,205 +281,209 @@ const Bulk = () => {
           </div> */}
         </div>
 
-        <div className="d-flex align-x-right mb-6 overflow-x-auto width-full">
-          <label className="form-radio">
-            <div className="form-radio-check">
-              <input
-                type="radio"
-                className="form-radio-input"
-                name="dataType"
-                value="online"
-                checked={dataType === "online"}
-                onChange={(e) => {
-                  loadFirst(limit);
-                  setDataType(e.target.value);
-                }}
-              />
-              <div className="form-radio-box"></div>
-            </div>
-            <div className="form-radio-title">
-              ONLINE DATA
-            </div>
-          </label>
-          <label className="form-radio">
-            <div className="form-radio-check">
-              <input
-                type="radio"
-                className="form-radio-input"
-                name="dataType"
-                value="google"
-                checked={dataType === "google"}
-                onChange={(e) => {
-                  setListData([]);
-                  setInformasi("");
-                  setDataType(e.target.value);
-                }}
-              />
-              <div className="form-radio-box"></div>
-            </div>
-            <div className="form-radio-title">
-              GOOGLE SHEET DATA
-            </div>
-          </label>
-          <label className="form-radio">
-            <div className="form-radio-check">
-              <input
-                type="radio"
-                className="form-radio-input"
-                name="dataType"
-                value="excel"
-                checked={dataType === "excel"}
-                onChange={(e) => {
-                  setInformasi("");
-                  setListData([]);
-                  setDataType(e.target.value);
-                }}
-              />
-              <div className="form-radio-box"></div>
-            </div>
-            <div className="form-radio-title">
-              EXCEL DATA
-            </div>
-          </label>
+        <div className="overflow-x-auto width-full">
+          <div className="d-flex align-x-right mb-6 list-data-type">
+            <label className="form-radio">
+              <div className="form-radio-check">
+                <input
+                  type="radio"
+                  className="form-radio-input"
+                  name="dataType"
+                  value="online"
+                  checked={dataType === "online"}
+                  onChange={(e) => {
+                    loadFirst(limit);
+                    setDataType(e.target.value);
+                  }}
+                />
+                <div className="form-radio-box"></div>
+              </div>
+              <div className="form-radio-title">
+                ONLINE DATA
+              </div>
+            </label>
+            <label className="form-radio">
+              <div className="form-radio-check">
+                <input
+                  type="radio"
+                  className="form-radio-input"
+                  name="dataType"
+                  value="google"
+                  checked={dataType === "google"}
+                  onChange={(e) => {
+                    setListData([]);
+                    setInformasi("");
+                    setDataType(e.target.value);
+                  }}
+                />
+                <div className="form-radio-box"></div>
+              </div>
+              <div className="form-radio-title">
+                GOOGLE SHEET DATA
+              </div>
+            </label>
+            <label className="form-radio">
+              <div className="form-radio-check">
+                <input
+                  type="radio"
+                  className="form-radio-input"
+                  name="dataType"
+                  value="excel"
+                  checked={dataType === "excel"}
+                  onChange={(e) => {
+                    setInformasi("");
+                    setListData([]);
+                    setDataType(e.target.value);
+                  }}
+                />
+                <div className="form-radio-box"></div>
+              </div>
+              <div className="form-radio-title">
+                EXCEL DATA
+              </div>
+            </label>
+          </div>
         </div>
 
-        <div className="box-contact">
-          <div className={`box-contact-filters${isFilter ? " show" : ""}`}>
-            <div className="box-contact-filters-wrapper">
-              <h2>Filter Data</h2>
-              <button type="button" className="filters-close-btn" onClick={closeFilter}>
-                <i className="resitdc icon-x"></i>
-              </button>
-              <div className="mt-7">
-                <div className="mb-5">
-                  <label>ORDER</label>
-                  <select name="" id="" className="form-input">
-                    <option value="">RANDOM</option>
-                    <option value="">Name A - Z</option>
-                    <option value="">Name Z - A</option>
-                  </select>
-                </div>
-                <div className="mb-5">
-                  <label className="noselect cursor-pointer">
-                    <input
-                      type="checkbox"
-                    />
-                    Tampilkan yang belum pernah dapat bulk
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="box-contact-header">
-            <div className="row row-x-space-between">
-              <div className="col-3">
-                <input
-                  type="number"
-                  className="form-input"
-                  onChange={onChangeInterval}
-                  placeholder="SET INTERVAL"
-                  value={messageInterval}
-                  disabled={isStarting}
-                />
-              </div>
-              {(() => {
-                switch (dataType) {
-                case "online":
-                  return (
-                    <>
-                      <div className="col-7">
-                        <div className="row">
-                          <div className="col-6">
-                            <input
-                              type="number"
-                              className="form-input"
-                              onChange={onChangeContact}
-                              placeholder="TOTAL CONTACT"
-                              value={limit}
-                              disabled={isStarting}
-                            />
-                          </div>
-                          <div className="col-6">
-                            <input
-                              type="search"
-                              className="form-input"
-                              placeholder="Search"
-                              value={searchContact}
-                              onChange={onSearchContact}
-                              disabled={isStarting}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-2">
-                        <Button
-                          heightFull
-                          color="primary"
-                          full
-                          md
-                          onClick={openFilter}
-                        >
-                            Filter
-                        </Button>
-                      </div>
-                    </>
-                  );
-                case "google":
-                  return (
-                    <div className="col-6">
+        <div className="overflow-x-auto width-full">
+          <div className="box-contact">
+            <div className={`box-contact-filters${isFilter ? " show" : ""}`}>
+              <div className="box-contact-filters-wrapper">
+                <h2>Filter Data</h2>
+                <button type="button" className="filters-close-btn" onClick={closeFilter}>
+                  <i className="resitdc icon-x"></i>
+                </button>
+                <div className="mt-7">
+                  <div className="mb-5">
+                    <label>ORDER</label>
+                    <select name="" id="" className="form-input">
+                      <option value="">RANDOM</option>
+                      <option value="">Name A - Z</option>
+                      <option value="">Name Z - A</option>
+                    </select>
+                  </div>
+                  <div className="mb-5">
+                    <label className="noselect cursor-pointer">
                       <input
-                        type="link"
-                        placeholder="GOOGLE SHEET LINK"
-                        className="form-input py-4"
+                        type="checkbox"
                       />
-                    </div>
-                  );
-                case "excel":
-                  return (
-                    <div className="col-9 d-flex align-y-center align-x-right pr-5">
-                      <div className="form-excel">
+                      Tampilkan yang belum pernah dapat bulk
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="box-contact-header">
+              <div className="row row-x-space-between">
+                <div className="col-3">
+                  <input
+                    type="number"
+                    className="form-input"
+                    onChange={onChangeInterval}
+                    placeholder="SET INTERVAL"
+                    value={messageInterval}
+                    disabled={isStarting}
+                  />
+                </div>
+                {(() => {
+                  switch (dataType) {
+                  case "online":
+                    return (
+                      <>
+                        <div className="col-7">
+                          <div className="row">
+                            <div className="col-6">
+                              <input
+                                type="number"
+                                className="form-input"
+                                onChange={onChangeContact}
+                                placeholder="TOTAL CONTACT"
+                                value={limit}
+                                disabled={isStarting}
+                              />
+                            </div>
+                            <div className="col-6">
+                              <input
+                                type="search"
+                                className="form-input"
+                                placeholder="Search"
+                                value={searchContact}
+                                onChange={onSearchContact}
+                                disabled={isStarting}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-2">
+                          <Button
+                            heightFull
+                            color="primary"
+                            full
+                            md
+                            onClick={openFilter}
+                          >
+                              Filter
+                          </Button>
+                        </div>
+                      </>
+                    );
+                  case "google":
+                    return (
+                      <div className="col-6">
                         <input
-                          type="file"
-                          className="form-excel-input"
-                          accept=".xlsx"
-                          onChange={onSelectExcel}
+                          type="link"
+                          placeholder="GOOGLE SHEET LINK"
+                          className="form-input py-4"
                         />
-                        <div className="form-excel-title">
-                          PILIH FILE EXCEL
+                      </div>
+                    );
+                  case "excel":
+                    return (
+                      <div className="col-9 d-flex align-y-center align-x-right pr-5">
+                        <div className="form-excel">
+                          <input
+                            type="file"
+                            className="form-excel-input"
+                            accept=".xlsx"
+                            onChange={onSelectExcel}
+                          />
+                          <div className="form-excel-title">
+                            PILIH FILE EXCEL
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                }
-              })()}
+                    );
+                  }
+                })()}
+              </div>
             </div>
-          </div>
-          <div className="box-contact-body" ref={dataResults}>
-            <div className="contact-body-left">
-              <BoxInfo title="Informasi" color="yellow">
+            <div className="box-contact-body" ref={dataResults}>
+              <div className="contact-body-left">
+                <BoxInfo title="Informasi" color="yellow">
+                  {
+                    informasi
+                      ? <div dangerouslySetInnerHTML={{ __html: informasi }}></div>
+                      : <h2 className="text-center">TIDAK ADA INFO</h2>
+                  }
+                </BoxInfo>
+              </div>
+              <div className="contact-body-right">
                 {
-                  informasi
-                    ? <div dangerouslySetInnerHTML={{ __html: informasi }}></div>
-                    : <h2 className="text-center">TIDAK ADA INFO</h2>
+                  isFetching
+                    ? <h1 className="text-center">LOADING DATA....</h1>
+                    : listData.length > 0
+                      ? listData.map((item, index) => {
+                        return (
+                          <div className="contact-info" whatsapp={item.whatsapp} key={index}>
+                            <div className="contact-info-no" order={index + 1}>{item.whatsapp}</div>
+                            <div className="contact-info-name">{item.name}</div>
+                            <div className="contact-info-status" style={{ display: "none" }}></div>
+                          </div>
+                        );
+                      })
+                      : <h1 className="text-center py-8">NO DATA</h1>
                 }
-              </BoxInfo>
-            </div>
-            <div className="contact-body-right">
-              {
-                isFetching
-                  ? <h1 className="text-center">LOADING DATA....</h1>
-                  : listData.length > 0
-                    ? listData.map((item, index) => {
-                      return (
-                        <div className="contact-info" whatsapp={item.whatsapp} key={index}>
-                          <div className="contact-info-no" order={index + 1}>{item.whatsapp}</div>
-                          <div className="contact-info-name">{item.name}</div>
-                          <div className="contact-info-status" style={{ display: "none" }}></div>
-                        </div>
-                      );
-                    })
-                    : <h1 className="text-center py-8">NO DATA</h1>
-              }
+              </div>
             </div>
           </div>
         </div>

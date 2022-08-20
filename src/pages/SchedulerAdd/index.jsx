@@ -16,7 +16,7 @@ const SchedulerAdd = () => {
           Untuk saat ini scheduler dibatasi hanya sampai 13 orang / whatsapp sampai fitur Interval Scheduler beres, aturan ini untuk menghindari pemblokiran dari whatsapp, terimakasih.
           <br />
           <br />
-          <b>#udahPercayaAjaSamaRestu</b>
+          <b>#percayaAjaSamaRestu</b>
         </BoxInfo>
       </div>
       <div className="mt-10">

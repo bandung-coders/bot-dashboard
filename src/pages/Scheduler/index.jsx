@@ -85,47 +85,48 @@ const Scheduler = () => {
       />
       <div className="mt-10">
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 col-mobile-12">
             <Button type="button" color="black" radius="xs" href="/scheduler/add" md>
               TAMBAH SCHEDULER
             </Button>
           </div>
-          <div className="col-6">
-
-          </div>
+          <div className="col-6 display-mobile-none"></div>
         </div>
-        <table className="resit-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Message</th>
-              <th>Schedule</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              isLoading
-                ? <tr>
-                  <td className="text-center" colSpan={4}>
-                    <h2 className="py-4">
-                    LOADING...
-                    </h2>
-                  </td>
-                </tr>
-                : listData.map((item, index) => {
-                  return (
-                    <Row
-                      key={index}
-                      order={index + 1}
-                      data={item}
-                      onDelete={(e) => { onDelete(e); }}
-                    />
-                  );
-                })
-            }
-          </tbody>
-        </table>
+        <div className="overflow-x-auto width-full">
+
+          <table className="resit-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th min-width="200px">Message</th>
+                <th>Schedule</th>
+                <th className="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                isLoading
+                  ? <tr>
+                    <td className="text-center" colSpan={4}>
+                      <h2 className="py-4">
+                      LOADING...
+                      </h2>
+                    </td>
+                  </tr>
+                  : listData.map((item, index) => {
+                    return (
+                      <Row
+                        key={index}
+                        order={index + 1}
+                        data={item}
+                        onDelete={(e) => { onDelete(e); }}
+                      />
+                    );
+                  })
+              }
+            </tbody>
+          </table>
+        </div>
         {
           totalData > listData.length &&
           <div className="text-center">

@@ -65,6 +65,19 @@
     }
   }
 
+  .th-actions {
+    min-width: 120px;
+  }
+
+  .list-data-type {
+    width: 550px;
+    justify-content: space-between;
+  }
+
+  .box-contact {
+    width: 800px;
+  }
+
   .col-mobile {
     $end-width: 100%;
     $end-col: 12;
