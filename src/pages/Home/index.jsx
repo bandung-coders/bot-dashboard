@@ -54,7 +54,7 @@ const Home = () => {
               <div className="whatsapp-barcode">
                 <div className="whatsapp-barcode-body mt-2">
                   <img
-                    src={backendHost + "/wa/barcode/" + botId}
+                    src={backendHost + "/wa/barcode/" + botId + "?type=image"}
                     className="width-full" alt="WHATSAPP BARCODE"
                   />
                 </div>
